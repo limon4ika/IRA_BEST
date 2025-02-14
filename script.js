@@ -1,24 +1,13 @@
 const gallery = document.querySelector('.gallery');
-const modal = document.querySelector('.modal');
-const modalContent = document.querySelector('.modal-content');
-const closeModal = document.querySelector('.close-modal');
+const imageURL = "https://i.pinimg.com/originals/b1/54/bf/b154bf5c4d45e9464cbd059f3bc526bf.jpg";
+const modal = document.getElementById('modal');
+const closeModal = document.getElementById('close-modal');
 
-// Массив с разными картинками Годжо Сатору
-const images = [
-    "https://i.pinimg.com/originals/b1/54/bf/b154bf5c4d45e9464cbd059f3bc526bf.jpg",
-    "https://i.pinimg.com/originals/71/f9/c8/71f9c8abda0322e50741c42c1e9d1a4f.jpg",
-    "https://i.pinimg.com/originals/ab/ab/ab/abababababababababababababababab.jpg",
-    "https://i.pinimg.com/originals/4d/4d/4d/4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d.jpg",
-    "https://i.pinimg.com/originals/9a/9a/9a/9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9.jpg"
-];
-
-// Генерация карточек
 for (let i = 0; i < 9; i++) {
-    const randomImage = images[Math.floor(Math.random() * images.length)];
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-        <img src="${randomImage}" alt="Годжо Сатору">
+        <img src="${imageURL}" alt="Годжо Сатору">
         <h2>Ира ЛУЧШАЯ</h2>
         <div class="rating" data-index="${i}">
             ${[...Array(5)].map((_, j) => `<span class="star" data-star="${j + 1}">★</span>`).join('')}
@@ -29,7 +18,6 @@ for (let i = 0; i < 9; i++) {
 
     // Открытие модального окна при клике на карточку
     card.addEventListener('click', () => {
-        modalContent.innerHTML = `<h2>Ира ЛУЧШАЯ</h2><p>Ира ЛУЧШАЯ Ира ЛУЧШАЯ Ира ЛУЧШАЯ</p>`;
         modal.style.display = 'flex';
     });
 
@@ -44,10 +32,24 @@ for (let i = 0; i < 9; i++) {
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
 });
-modal.addEventListener('click', (event) => {
+
+// Закрытие при клике на тёмный фон
+window.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.style.display = 'none';
     }
+});
+
+// Обработчик для установки рейтинга
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const index = star.parentElement.getAttribute('data-index');
+        const rating = parseInt(star.getAttribute('data-star'));
+
+        localStorage.setItem(`rating-${index}`, rating);
+        updateRating(index, rating);
+    });
 });
 
 // Обновление отображения рейтинга
@@ -63,14 +65,3 @@ function updateRating(index, rating) {
     const ratingText = rating === 5 ? "ЛУЧШАЯ" : rating;
     document.getElementById(`average-${index}`).innerText = `Рейтинг: ${ratingText} / 5`;
 }
-
-// Обработка клика на звёзды
-gallery.addEventListener('click', (event) => {
-    if (event.target.classList.contains('star')) {
-        const star = event.target;
-        const index = star.closest('.rating').dataset.index;
-        const rating = parseInt(star.dataset.star);
-        localStorage.setItem(`rating-${index}`, rating);
-        updateRating(index, rating);
-    }
-});
