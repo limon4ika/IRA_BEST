@@ -1,40 +1,21 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-
-const App = () => {
-  return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <header className="bg-gray-800 p-4 shadow-md">
-        <h1 className="text-3xl font-bold text-center">Ира ЛУЧШАЯ</h1>
-      </header>
-
-      <main className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {[...Array(9)].map((_, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="bg-gray-800 rounded-xl overflow-hidden shadow-lg"
-          >
-            <img 
-              src="https://i.pinimg.com/originals/b1/54/bf/b154bf5c4d45e9464cbd059f3bc526bf.jpg" 
-              alt="Годжо Сатору" 
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-2xl font-bold">Ира ЛУЧШАЯ</h2>
-              <p className="mt-2">Ира ЛУЧШАЯ Ира ЛУЧШАЯ Ира ЛУЧШАЯ</p>
-            </div>
-          </motion.div>
-        ))}
-      </main>
-
-      <footer className="bg-gray-800 p-4 text-center">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ира ЛУЧШАЯ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Ира ЛУЧШАЯ</h1>
+    </header>
+    <main class="gallery">
+        <!-- Карточки будут добавлены скриптом -->
+    </main>
+    <footer class="footer">
         © 2025 Ира ЛУЧШАЯ
-      </footer>
-    </div>
-  );
-};
-
-export default App;
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
